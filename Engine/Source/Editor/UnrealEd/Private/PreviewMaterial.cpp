@@ -1778,6 +1778,10 @@ void UMaterialEditorInstanceConstant::CopyBasePropertiesFromParent()
 {
 	BasePropertyOverrides = SourceInstance->BasePropertyOverrides;
 	// Copy the overrides (if not yet overridden), so they match their true values in the UI
+	if (!BasePropertyOverrides.bOverride_ShadingRate) 
+	{
+		BasePropertyOverrides.ShadingRate = SourceInstance->GetShadingRate();
+	}
 	if (!BasePropertyOverrides.bOverride_OpacityMaskClipValue)
 	{
 		BasePropertyOverrides.OpacityMaskClipValue = SourceInstance->GetOpacityMaskClipValue();

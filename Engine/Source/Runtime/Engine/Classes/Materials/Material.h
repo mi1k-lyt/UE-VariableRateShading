@@ -1050,6 +1050,7 @@ public:
 #endif
 	ENGINE_API virtual void RecacheUniformExpressions(bool bRecreateUniformBuffer) const override;
 	
+	ENGINE_API virtual EMaterialShadingRate GetShadingRate() const override;
 	ENGINE_API virtual float GetOpacityMaskClipValue() const override;
 	ENGINE_API virtual bool GetCastDynamicShadowAsMasked() const override;
 	ENGINE_API virtual EBlendMode GetBlendMode() const override;

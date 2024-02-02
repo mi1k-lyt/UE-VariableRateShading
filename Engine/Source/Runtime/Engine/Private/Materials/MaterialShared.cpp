@@ -1204,7 +1204,10 @@ bool FMaterialResource::IsSpecialEngineMaterial() const { return Material->bUsed
 bool FMaterialResource::HasVertexPositionOffsetConnected() const { return HasMaterialAttributesConnected() || (!Material->bUseMaterialAttributes && Material->WorldPositionOffset.IsConnected()); }
 bool FMaterialResource::HasPixelDepthOffsetConnected() const { return HasMaterialAttributesConnected() || (!Material->bUseMaterialAttributes && Material->PixelDepthOffset.IsConnected()); }
 bool FMaterialResource::HasMaterialAttributesConnected() const { return Material->bUseMaterialAttributes && Material->MaterialAttributes.IsConnected(); }
-EMaterialShadingRate FMaterialResource::GetShadingRate() const { return Material->ShadingRate; }
+EMaterialShadingRate FMaterialResource::GetShadingRate() const 
+{ 
+	return MaterialInstance ? MaterialInstance->GetShadingRate() : Material->GetShadingRate();
+}
 bool FMaterialResource::ShouldWriteDepthToTranslucentMaterial() const { return Material->WriteDepthToTranslucentMaterial; }
 FString FMaterialResource::GetBaseMaterialPathName() const { return Material->GetPathName(); }
 FString FMaterialResource::GetDebugName() const
@@ -4011,6 +4014,8 @@ FMaterialInstanceBasePropertyOverrides::FMaterialInstanceBasePropertyOverrides()
 	,bOverride_DitheredLODTransition(false)
 	,bOverride_CastDynamicShadowAsMasked(false)
 	,bOverride_TwoSided(false)
+	,bOverride_ShadingRate(false)
+	,ShadingRate(MSR_1x1)
 	,TwoSided(0)
 	,DitheredLODTransition(0)
 	,bCastDynamicShadowAsMasked(false)
@@ -4028,6 +4033,8 @@ bool FMaterialInstanceBasePropertyOverrides::operator==(const FMaterialInstanceB
 			bOverride_ShadingModel == Other.bOverride_ShadingModel &&
 			bOverride_TwoSided == Other.bOverride_TwoSided &&
 			bOverride_DitheredLODTransition == Other.bOverride_DitheredLODTransition &&
+			bOverride_ShadingRate == Other.bOverride_ShadingRate &&
+			ShadingRate == Other.ShadingRate &&
 			OpacityMaskClipValue == Other.OpacityMaskClipValue &&
 			BlendMode == Other.BlendMode &&
 			ShadingModel == Other.ShadingModel &&

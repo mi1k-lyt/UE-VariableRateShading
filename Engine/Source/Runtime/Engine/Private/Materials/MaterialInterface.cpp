@@ -474,6 +474,11 @@ bool DoesMaterialUseTexture(const UMaterialInterface* Material,const UTexture* C
 	return false;
 }
 
+EMaterialShadingRate UMaterialInterface::GetShadingRate() const
+{
+	return MSR_1x1;
+}
+
 float UMaterialInterface::GetOpacityMaskClipValue() const
 {
 	return 0.0f;

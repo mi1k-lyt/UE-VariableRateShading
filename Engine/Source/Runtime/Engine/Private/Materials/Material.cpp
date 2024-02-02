@@ -921,7 +921,8 @@ UMaterial::UMaterial(const FObjectInitializer& ObjectInitializer)
 #if WITH_EDITORONLY_DATA
 	DiffuseColor_DEPRECATED.Constant = FColor(128,128,128);
 	SpecularColor_DEPRECATED.Constant = FColor(128,128,128);
-	BaseColor.Constant = FColor(128,128,128);	
+	BaseColor.Constant = FColor(128,128,128);
+	ShadingRate = MSR_1x1;
 	Metallic.Constant = 0.0f;
 	Specular.Constant = 0.5f;
 	Roughness.Constant = 0.5f;
@@ -1318,6 +1319,11 @@ void UMaterial::RecacheUniformExpressions(bool bRecreateUniformBuffer) const
 	// Need to invalidate all child material instances as well.
 	RecacheMaterialInstanceUniformExpressions(this, bRecreateUniformBuffer);
 #endif
+}
+
+EMaterialShadingRate UMaterial::GetShadingRate() const
+{
+	return ShadingRate;
 }
 
 bool UMaterial::GetUsageByFlag(EMaterialUsage Usage) const

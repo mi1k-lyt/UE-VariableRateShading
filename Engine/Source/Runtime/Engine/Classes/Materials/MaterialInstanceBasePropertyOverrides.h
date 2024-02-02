@@ -37,6 +37,14 @@ struct ENGINE_API FMaterialInstanceBasePropertyOverrides
 	UPROPERTY(EditAnywhere, Category = Material)
 	uint8 bOverride_TwoSided : 1;
 
+	/** Enables override of the shading rate property. */
+	UPROPERTY(EditAnywhere, Category = Material)
+	uint8 bOverride_ShadingRate : 1;
+
+	/** The shading rate */
+	UPROPERTY(EditAnywhere, Category = Material, meta = (editcondition = "bOverride_ShadingRate"))
+	TEnumAsByte<EMaterialShadingRate> ShadingRate;
+
 	/** Indicates that the material should be rendered without backface culling and the normal should be flipped for backfaces. */
 	UPROPERTY(EditAnywhere, Category = Material, meta = (editcondition = "bOverride_TwoSided"))
 	uint8 TwoSided : 1;

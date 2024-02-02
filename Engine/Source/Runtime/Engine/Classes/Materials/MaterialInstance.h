@@ -414,6 +414,7 @@ class UMaterialInstance : public UMaterialInterface
 #endif
 
 	FMaterialShadingModelField ShadingModels;
+	EMaterialShadingRate ShadingRate;
 
 #if WITH_EDITOR
 	/** Flag to detect cycles in the material instance graph, this is only used at content creation time where the hierarchy can be changed. */
@@ -542,6 +543,7 @@ public:
 	ENGINE_API virtual void ForceRecompileForRendering() override;
 #endif // WITH_EDITOR
 
+	ENGINE_API virtual EMaterialShadingRate GetShadingRate() const override;
 	ENGINE_API virtual float GetOpacityMaskClipValue() const override;
 	ENGINE_API virtual EBlendMode GetBlendMode() const override;
 	ENGINE_API virtual FMaterialShadingModelField GetShadingModels() const override;

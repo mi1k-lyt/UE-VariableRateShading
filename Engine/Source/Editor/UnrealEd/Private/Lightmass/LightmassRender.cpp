@@ -969,7 +969,7 @@ bool FLightmassMaterialRenderer::GenerateMaterialData(
 			(int32)ShadingModels.GetShadingModelField(),
 			*(InMaterial.GetPathName()));
 	}
-
+	
 	// Set the blend mode
 	static_assert(EBlendMode::BLEND_MAX == (EBlendMode)Lightmass::BLEND_MAX, "Debug type sizes must match.");
 	OutMaterialData.BlendMode = (Lightmass::EBlendMode)((int32)BlendMode);

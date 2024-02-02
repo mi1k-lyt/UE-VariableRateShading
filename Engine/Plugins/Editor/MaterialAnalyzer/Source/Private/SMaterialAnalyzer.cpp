@@ -710,6 +710,14 @@ void FAnalyzeMaterialTreeAsyncTask::DoWork()
 
 		UMaterialInstance* CurrentMaterialInstance = Cast<UMaterialInstance>(CurrentMaterialInterface);
 
+		if (BasePropertyOverrideName.Key.IsEqual(TEXT("bOverride_ShadingRate")))
+		{
+			TempValue = CurrentMaterialInterface->GetShadingRate();
+			if (CurrentMaterialInstance)
+			{
+				bIsOverridden = CurrentMaterialInstance->BasePropertyOverrides.bOverride_ShadingRate;
+			}
+		}
 		if (BasePropertyOverrideName.Key.IsEqual(TEXT("bOverride_OpacityMaskClipValue")))
 		{
 			TempValue = CurrentMaterialInterface->GetOpacityMaskClipValue();

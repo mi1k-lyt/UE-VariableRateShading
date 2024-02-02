@@ -630,7 +630,7 @@ UMaterialInstance::UMaterialInstance(const FObjectInitializer& ObjectInitializer
 	ReentrantFlag[1] = false;
 #endif
 	ShadingModels = MSM_Unlit;
-
+	ShadingRate = MSR_1x1;
 	PhysMaterial = nullptr;
 	for (UPhysicalMaterial*& PhysMat : PhysicalMaterialMap)
 	{
@@ -1833,6 +1833,11 @@ void UMaterialInstanceDynamic::CopyScalarAndVectorParameters(const UMaterialInte
 	}
 }
 
+EMaterialShadingRate UMaterialInstanceDynamic::GetShadingRate() const
+{
+	return Parent ? Parent->GetShadingRate() : MSR_1x1;
+}
+
 float UMaterialInstanceDynamic::GetOpacityMaskClipValue() const
 {
 	return Parent ? Parent->GetOpacityMaskClipValue() : 0.0f;
@@ -2689,10 +2694,21 @@ void UMaterialInstance::UpdateOverridableBaseProperties()
 		OpacityMaskClipValue = 0.0f;
 		BlendMode = BLEND_Opaque;
 		ShadingModels = MSM_DefaultLit;
+		ShadingRate = MSR_1x1;
 		TwoSided = 0;
 		DitheredLODTransition = 0;
 		bIsShadingModelFromMaterialExpression = 0;
 		return;
+	}
+
+	if (BasePropertyOverrides.bOverride_ShadingRate) 
+	{
+		ShadingRate = BasePropertyOverrides.ShadingRate;
+	}
+	else 
+	{
+		ShadingRate = Parent->GetShadingRate();
+		BasePropertyOverrides.ShadingRate = ShadingRate;
 	}
 
 	if (BasePropertyOverrides.bOverride_OpacityMaskClipValue)
@@ -4389,7 +4405,14 @@ void UMaterialInstance::GetBasePropertyOverridesHash(FSHAHash& OutHash)const
 		Hash.Update((const uint8*)&UsedShadingModels, sizeof(UsedShadingModels));
 		bHasOverrides = true;
 	}
-
+	EMaterialShadingRate UseShadingRate = GetShadingRate();
+	if (UseShadingRate != Mat->GetShadingRate()) 
+	{
+		const FString HashString = TEXT("bOverride_ShadingRate");
+		Hash.UpdateWithString(*HashString, HashString.Len());
+		Hash.Update((const uint8*)&UseShadingRate, sizeof(UseShadingRate));
+		bHasOverrides = true;
+	}
 	bool bUsedIsTwoSided = IsTwoSided();
 	if (bUsedIsTwoSided != Mat->IsTwoSided())
 	{
@@ -4421,6 +4444,7 @@ bool UMaterialInstance::HasOverridenBaseProperties()const
 		((FMath::Abs(GetOpacityMaskClipValue() - Parent->GetOpacityMaskClipValue()) > SMALL_NUMBER) ||
 		(GetBlendMode() != Parent->GetBlendMode()) ||
 		(GetShadingModels() != Parent->GetShadingModels()) ||
+		(GetShadingRate() != Parent->GetShadingRate()) ||
 		(IsTwoSided() != Parent->IsTwoSided()) ||
 		(IsDitheredLODTransition() != Parent->IsDitheredLODTransition()) ||
 		(GetCastDynamicShadowAsMasked() != Parent->GetCastDynamicShadowAsMasked())
@@ -4430,6 +4454,12 @@ bool UMaterialInstance::HasOverridenBaseProperties()const
 	}
 
 	return false;
+}
+
+
+EMaterialShadingRate UMaterialInstance::GetShadingRate() const
+{
+	return ShadingRate;
 }
 
 float UMaterialInstance::GetOpacityMaskClipValue() const

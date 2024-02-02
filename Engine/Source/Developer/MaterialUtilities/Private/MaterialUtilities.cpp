@@ -99,6 +99,8 @@ UMaterialInterface* FMaterialUtilities::CreateProxyMaterialAndTextures(UPackage*
 		Material->BasePropertyOverrides.BlendMode = MaterialData.Material->GetBlendMode();
 	}
 
+	Material->BasePropertyOverrides.ShadingRate = MaterialData.Material->GetShadingRate();
+
 	FStaticParameterSet NewStaticParameterSet;
 	// iterate over each property and its size
 	for (auto Iterator : BakeOutput.PropertySizes)
