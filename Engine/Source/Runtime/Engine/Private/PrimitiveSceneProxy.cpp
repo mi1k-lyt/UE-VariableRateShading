@@ -142,6 +142,7 @@ FPrimitiveSceneProxy::FPrimitiveSceneProxy(const UPrimitiveComponent* InComponen
 ,	bWantsSelectionOutline(true)
 ,	bVerifyUsedMaterials(true)
 ,	bUseAsOccluder(InComponent->bUseAsOccluder)
+,	ShadingRate(InComponent->ShadingRate)
 ,	bAllowApproximateOcclusion(InComponent->Mobility != EComponentMobility::Movable)
 ,	bSelectable(InComponent->bSelectable)
 ,	bHasPerInstanceHitProxies(InComponent->bHasPerInstanceHitProxies)

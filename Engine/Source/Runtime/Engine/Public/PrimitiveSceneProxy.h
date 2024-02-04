@@ -506,6 +506,7 @@ public:
 		// Flip the default channel bit so that the default value is 0, to align with the default stencil clear value and GBlackTexture value
 		return (LightingChannelMask & 0x6) | (~LightingChannelMask & 0x1); 
 	}
+	inline EMaterialShadingRate GetShadingRate() const { return ShadingRate; }
 	inline bool IsVisibleInReflectionCaptures() const { return bVisibleInReflectionCaptures; }
 	inline bool IsVisibleInRealTimeSkyCaptures() const { return bVisibleInRealTimeSkyCaptures; }
 	inline bool IsVisibleInRayTracing() const { return bVisibleInRayTracing; }
@@ -985,6 +986,9 @@ private:
 	TEnumAsByte<EStencilMask> CustomDepthStencilWriteMask;
 
 	uint8 LightingChannelMask;
+
+	/** ShadingRate for primitive components. */
+	TEnumAsByte<EMaterialShadingRate> ShadingRate;
 
 protected:
 

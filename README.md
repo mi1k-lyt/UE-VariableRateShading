@@ -2,4 +2,4 @@
 
 ### 目前支持特性
 - Material Instance着色率设置
-
+- PrimitiveComponent着色率设置

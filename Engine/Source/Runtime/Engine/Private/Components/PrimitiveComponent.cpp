@@ -322,6 +322,7 @@ UPrimitiveComponent::UPrimitiveComponent(const FObjectInitializer& ObjectInitial
 	DepthPriorityGroup = SDPG_World;
 	bAllowCullDistanceVolume = true;
 	bUseAsOccluder = false;
+	ShadingRate = MSR_1x1;
 	bReceivesDecals = true;
 	CastShadow = false;
 	bCastDynamicShadow = true;

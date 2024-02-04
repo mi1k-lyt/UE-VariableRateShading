@@ -362,6 +362,10 @@ public:
 	UPROPERTY(EditAnywhere, AdvancedDisplay, BlueprintReadOnly, Category=Rendering)
 	uint8 bUseAsOccluder:1;
 
+	/** Set shading rate with primitive component */
+	UPROPERTY(EditAnywhere, AdvancedDisplay, BlueprintReadOnly, Category=Rendering, meta = (DisplayName = "Shading Rate"))
+	TEnumAsByte<EMaterialShadingRate> ShadingRate;
+
 	/** If this is True, this component can be selected in the editor. */
 	UPROPERTY()
 	uint8 bSelectable:1;
