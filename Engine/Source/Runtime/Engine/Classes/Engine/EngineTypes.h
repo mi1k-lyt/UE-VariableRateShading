@@ -592,6 +592,7 @@ enum EMaterialStencilCompare
 UENUM()
 enum EMaterialShadingRate
 {
+	MSR_OFF             UMETA(DisplayName = "OFF"),
 	MSR_1x1				UMETA(DisplayName = "1x1"),
 	MSR_2x1				UMETA(DisplayName = "2x1"),
 	MSR_1x2				UMETA(DisplayName = "1x2"),
@@ -599,7 +600,6 @@ enum EMaterialShadingRate
 	MSR_4x2				UMETA(DisplayName = "4x2"),
 	MSR_2x4				UMETA(DisplayName = "2x4"),
 	MSR_4x4				UMETA(DisplayName = "4x4"),
-	MSR_OFF             UMETA(DisplayName = "OFF"),
 	MSR_Count			UMETA(Hidden),
 };
 
