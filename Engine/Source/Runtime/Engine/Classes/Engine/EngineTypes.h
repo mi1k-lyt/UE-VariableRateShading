@@ -599,6 +599,7 @@ enum EMaterialShadingRate
 	MSR_4x2				UMETA(DisplayName = "4x2"),
 	MSR_2x4				UMETA(DisplayName = "2x4"),
 	MSR_4x4				UMETA(DisplayName = "4x4"),
+	MSR_OFF             UMETA(DisplayName = "OFF"),
 	MSR_Count			UMETA(Hidden),
 };
 

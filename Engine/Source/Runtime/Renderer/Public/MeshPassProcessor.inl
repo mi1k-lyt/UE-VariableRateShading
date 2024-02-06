@@ -75,7 +75,14 @@ void FMeshPassProcessor::BuildMeshDrawCommands(
 	PipelineState.DepthStencilState = DrawRenderState.GetDepthStencilState();
 	if (PrimitiveSceneProxy) 
 	{
-		PipelineState.DrawShadingRate = GetShadingRateFromMaterial(PrimitiveSceneProxy->GetShadingRate());
+		if (PrimitiveSceneProxy->GetShadingRate() != MSR_OFF && MaterialResource.GetShadingRate() != MSR_OFF)
+		{
+			PipelineState.DrawShadingRate = GetShadingRateFromMaterial(MaterialResource.GetShadingRate());
+		}
+		else if (MaterialResource.GetShadingRate() == MSR_OFF) 
+		{
+			PipelineState.DrawShadingRate = GetShadingRateFromMaterial(MaterialResource.GetShadingRate());
+		}
 	}
 	else 
 	{
