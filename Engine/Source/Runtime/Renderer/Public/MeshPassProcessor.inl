@@ -29,6 +29,13 @@ static EVRSShadingRate GetShadingRateFromMaterial(EMaterialShadingRate MaterialS
 	return EVRSShadingRate::VRSSR_1x1;
 }
 
+static TAutoConsoleVariable<int32> CVarTranslucentVRS(
+	TEXT("r.TranslucentVRS"),
+	1,
+	TEXT("Set Translucent shading rate num map with EMaterialShadingRate"),
+	ECVF_RenderThreadSafe
+);
+
 template<typename PassShadersType, typename ShaderElementDataType>
 void FMeshPassProcessor::BuildMeshDrawCommands(
 	const FMeshBatch& RESTRICT MeshBatch,
@@ -73,28 +80,40 @@ void FMeshPassProcessor::BuildMeshDrawCommands(
 
 	PipelineState.BlendState = DrawRenderState.GetBlendState();
 	PipelineState.DepthStencilState = DrawRenderState.GetDepthStencilState();
-	if (PrimitiveSceneProxy) 
+
+	const EBlendMode BlendMode = MaterialResource.GetBlendMode();
+	const bool bIsTranslucent = IsTranslucentBlendMode(BlendMode);
+	if (!bIsTranslucent) 
 	{
-		EMaterialShadingRate PrimitiveComponentShadingRate = PrimitiveSceneProxy->GetShadingRate();
-		EMaterialShadingRate MaterialResourceShadingRate = MaterialResource.GetShadingRate();
-		if (PrimitiveComponentShadingRate != MSR_OFF && MaterialResourceShadingRate != MSR_OFF)
+		if (PrimitiveSceneProxy)
 		{
-			PipelineState.DrawShadingRate = GetShadingRateFromMaterial(PrimitiveComponentShadingRate > MaterialResourceShadingRate ? PrimitiveComponentShadingRate : MaterialResourceShadingRate);
+			EMaterialShadingRate PrimitiveComponentShadingRate = PrimitiveSceneProxy->GetShadingRate();
+			EMaterialShadingRate MaterialResourceShadingRate = MaterialResource.GetShadingRate();
+			if (PrimitiveComponentShadingRate != MSR_OFF && MaterialResourceShadingRate != MSR_OFF)
+			{
+				PipelineState.DrawShadingRate = GetShadingRateFromMaterial(PrimitiveComponentShadingRate > MaterialResourceShadingRate ? PrimitiveComponentShadingRate : MaterialResourceShadingRate);
+			}
+			else if (MaterialResourceShadingRate == MSR_OFF)
+			{
+				PipelineState.DrawShadingRate = GetShadingRateFromMaterial(PrimitiveComponentShadingRate);
+			}
+			else if (PrimitiveComponentShadingRate == MSR_OFF)
+			{
+				PipelineState.DrawShadingRate = GetShadingRateFromMaterial(MaterialResourceShadingRate);
+			}
 		}
-		else if (MaterialResourceShadingRate == MSR_OFF)
+		else
 		{
-			PipelineState.DrawShadingRate = GetShadingRateFromMaterial(PrimitiveComponentShadingRate);
-		}
-		else if (PrimitiveComponentShadingRate == MSR_OFF)
-		{
-			PipelineState.DrawShadingRate = GetShadingRateFromMaterial(MaterialResourceShadingRate);
+			PipelineState.DrawShadingRate = GetShadingRateFromMaterial(MaterialResource.GetShadingRate());
 		}
 	}
 	else 
 	{
-		PipelineState.DrawShadingRate = GetShadingRateFromMaterial(MaterialResource.GetShadingRate());
+		static const auto CVar = IConsoleManager::Get().FindTConsoleVariableDataInt(TEXT("r.TranslucentVRS"));
+		EMaterialShadingRate TranslucentShadingRate = EMaterialShadingRate(CVar->GetValueOnAnyThread());
+		PipelineState.DrawShadingRate = GetShadingRateFromMaterial(TranslucentShadingRate);
 	}
-	
+
 	check(VertexFactory && VertexFactory->IsInitialized());
 	VertexFactory->GetStreams(FeatureLevel, InputStreamType, SharedMeshDrawCommand.VertexStreams);
 
