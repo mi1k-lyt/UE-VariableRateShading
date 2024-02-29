@@ -4,3 +4,4 @@
 - Material Instance着色率设置
 - PrimitiveComponent着色率设置
 - Translucent着色率设置
+- MotionBlur自适应着色率策略
