@@ -3397,6 +3397,12 @@ void UPrimitiveComponent::SetLightingChannels(bool bChannel0, bool bChannel1, bo
 	}
 }
 
+
+void UPrimitiveComponent::SetShadingRate(const EMaterialShadingRate& InputShadingRate)
+{
+	ShadingRate = InputShadingRate;
+}
+
 void UPrimitiveComponent::ClearComponentOverlaps(bool bDoNotifies, bool bSkipNotifySelf)
 {
 	if (OverlappingComponents.Num() > 0)

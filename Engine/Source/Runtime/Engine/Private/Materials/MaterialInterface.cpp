@@ -556,6 +556,11 @@ void UMaterialInterface::SetFeatureLevelToCompile(ERHIFeatureLevel::Type Feature
 	}
 }
 
+void UMaterialInterface::SetShadingRate(const EMaterialShadingRate& InputShadingRate) 
+{
+	
+}
+
 uint32 UMaterialInterface::FeatureLevelsForAllMaterials = 0;
 
 void UMaterialInterface::SetGlobalRequiredFeatureLevel(ERHIFeatureLevel::Type FeatureLevel, bool bShouldCompile)

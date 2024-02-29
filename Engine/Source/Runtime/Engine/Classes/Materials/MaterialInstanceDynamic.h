@@ -152,6 +152,7 @@ class ENGINE_API UMaterialInstanceDynamic : public UMaterialInstance
 
 	//Material base property overrides. MIDs cannot override these so they just grab from their parent.
 	virtual EMaterialShadingRate GetShadingRate() const override;
+	virtual void SetShadingRate(const EMaterialShadingRate& InputShadingRate) override;
 	virtual float GetOpacityMaskClipValue() const override;
 	virtual bool GetCastDynamicShadowAsMasked() const override;
 	virtual FMaterialShadingModelField GetShadingModels() const override;

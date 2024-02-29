@@ -1838,6 +1838,18 @@ EMaterialShadingRate UMaterialInstanceDynamic::GetShadingRate() const
 	return Parent ? Parent->GetShadingRate() : MSR_1x1;
 }
 
+void UMaterialInstanceDynamic::SetShadingRate(const EMaterialShadingRate& InputShadingRate)
+{
+	if (Parent != nullptr) 
+	{
+		Parent->SetShadingRate(InputShadingRate);
+	}
+	else 
+	{
+		ShadingRate = InputShadingRate;
+	}
+}
+
 float UMaterialInstanceDynamic::GetOpacityMaskClipValue() const
 {
 	return Parent ? Parent->GetOpacityMaskClipValue() : 0.0f;
@@ -4460,6 +4472,11 @@ bool UMaterialInstance::HasOverridenBaseProperties()const
 EMaterialShadingRate UMaterialInstance::GetShadingRate() const
 {
 	return ShadingRate;
+}
+
+void UMaterialInstance::SetShadingRate(const EMaterialShadingRate& InputShadingRate) 
+{
+	ShadingRate = InputShadingRate;
 }
 
 float UMaterialInstance::GetOpacityMaskClipValue() const

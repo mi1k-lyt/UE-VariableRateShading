@@ -1326,6 +1326,11 @@ EMaterialShadingRate UMaterial::GetShadingRate() const
 	return ShadingRate;
 }
 
+void UMaterial::SetShadingRate(const EMaterialShadingRate& InputShadingRate) 
+{
+	ShadingRate = InputShadingRate;
+}
+
 bool UMaterial::GetUsageByFlag(EMaterialUsage Usage) const
 {
 	bool UsageValue = false;

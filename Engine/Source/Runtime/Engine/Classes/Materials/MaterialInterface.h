@@ -287,6 +287,8 @@ public:
 	/** Set which feature levels this material instance should compile. GMaxRHIFeatureLevel is always compiled! */
 	ENGINE_API void SetFeatureLevelToCompile(ERHIFeatureLevel::Type FeatureLevel, bool bShouldCompile);
 
+	ENGINE_API virtual void SetShadingRate(const EMaterialShadingRate& InputShadingRate);
+
 	/** Set which feature levels _all_ materials should compile to. GMaxRHIFeatureLevel is always compiled. */
 	ENGINE_API static void SetGlobalRequiredFeatureLevel(ERHIFeatureLevel::Type FeatureLevel, bool bShouldCompile);
 

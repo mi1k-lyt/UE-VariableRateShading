@@ -544,6 +544,7 @@ public:
 #endif // WITH_EDITOR
 
 	ENGINE_API virtual EMaterialShadingRate GetShadingRate() const override;
+	ENGINE_API virtual void SetShadingRate(const EMaterialShadingRate& InputShadingRate) override;
 	ENGINE_API virtual float GetOpacityMaskClipValue() const override;
 	ENGINE_API virtual EBlendMode GetBlendMode() const override;
 	ENGINE_API virtual FMaterialShadingModelField GetShadingModels() const override;
