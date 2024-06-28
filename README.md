@@ -1,4 +1,4 @@
-# Unreal Engine 4.72 实现自适应着色率
+# Unreal Engine 4.27 实现自适应着色率
 
 ### 目前支持特性
 - Material Instance着色率设置
